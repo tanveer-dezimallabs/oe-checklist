@@ -1,19 +1,25 @@
 #!/bin/bash
 set -e
 
-COMPOSE_FILE="docker-compose.yaml"
-CONFIGS_DIR="./configs"
+COMPOSE_FILE="/opt/oe/docker-compose.yaml"
+ALARM_CONFIG_DIR="/opt/oe/configs/alarm-app"
+ALARM_NGINX_CONF="/opt/oe/configs/alarm-app/nginx-site.conf"
 
-# Remove alarm-related services from docker-compose.yaml
+# 1. Remove alarm-app service from docker-compose.yaml
 sed -i '/alarm-app:/,/^  [a-zA-Z0-9_-]\+:/ {/^  [a-zA-Z0-9_-]\+:/!d; /^  [a-zA-Z0-9_-]\+:/b}; /alarm-app:/d' "$COMPOSE_FILE"
-sed -i '/service_alarmer:/,/^  [a-zA-Z0-9_-]\+:/ {/^  [a-zA-Z0-9_-]\+:/!d; /^  [a-zA-Z0-9_-]\+:/b}; /service_alarmer:/d' "$COMPOSE_FILE"
-sed -i '/service_notifier_ws:/,/^  [a-zA-Z0-9_-]\+:/ {/^  [a-zA-Z0-9_-]\+:/!d; /^  [a-zA-Z0-9_-]\+:/b}; /service_notifier_ws:/d' "$COMPOSE_FILE"
-sed -i '/service_notifier_tg:/,/^  [a-zA-Z0-9_-]\+:/ {/^  [a-zA-Z0-9_-]\+:/!d; /^  [a-zA-Z0-9_-]\+:/b}; /service_notifier_tg:/d' "$COMPOSE_FILE"
 
-# Remove alarm-app config directory if it exists
-if [ -d "$CONFIGS_DIR/alarm-app" ]; then
-    rm -rf "$CONFIGS_DIR/alarm-app"
-    echo "Removed $CONFIGS_DIR/alarm-app"
+# 2. Remove alarm-app from any depends_on arrays
+sed -i 's/alarm-app, //g; s/, alarm-app//g; s/alarm-app//g' "$COMPOSE_FILE"
+
+# 3. Remove the alarm-app config directory and nginx conf if they exist
+if [ -d "$ALARM_CONFIG_DIR" ]; then
+    rm -rf "$ALARM_CONFIG_DIR"
+    echo "Removed directory: $ALARM_CONFIG_DIR"
 fi
 
-echo "Alarm-related services and configs removed from $COMPOSE_FILE."
+if [ -f "$ALARM_NGINX_CONF" ]; then
+    rm -f "$ALARM_NGINX_CONF"
+    echo "Removed file: $ALARM_NGINX_CONF"
+fi
+
+echo "Alarm service, config directory, and nginx conf have been removed from /opt/oe/configs."
