@@ -1,7 +1,11 @@
 #!/bin/bash
 set -e
 
-MODELS_DIR="./models"
+# Directories to check for models
+MODEL_DIRS=(
+    "/opt/oe/models"
+    "/opt/oe/data"
+)
 
 # List of model subdirectories or files to remove
 UNUSED_MODELS=(
@@ -10,16 +14,19 @@ UNUSED_MODELS=(
     "carrec"
     "pedattr"
     "pedrec"
+    "detector"
 )
 
-for model in "${UNUSED_MODELS[@]}"; do
-    if [ -d "$MODELS_DIR/$model" ]; then
-        rm -rf "$MODELS_DIR/$model"
-        echo "Removed directory: $MODELS_DIR/$model"
-    elif [ -f "$MODELS_DIR/$model" ]; then
-        rm -f "$MODELS_DIR/$model"
-        echo "Removed file: $MODELS_DIR/$model"
-    fi
+for dir in "${MODEL_DIRS[@]}"; do
+    for model in "${UNUSED_MODELS[@]}"; do
+        if [ -d "$dir/$model" ]; then
+            rm -rf "$dir/$model"
+            echo "Removed directory: $dir/$model"
+        elif [ -f "$dir/$model" ]; then
+            rm -f "$dir/$model"
+            echo "Removed file: $dir/$model"
+        fi
+    done
 done
 
-echo "Unnecessary non-face models have been removed."
+echo "Unnecessary non-face detector models have been removed from all relevant locations."
