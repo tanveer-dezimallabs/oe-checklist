@@ -5,7 +5,7 @@ set -e
 CONFIGS_DIR="/opt/oe/configs"
 OLD_DIR="findface-multi-onvif-discovery"
 NEW_DIR="oe-onvif-discovery"
-OLD_SERVICE="findface-multi-onvif-discovery"
+OLD_SERVICE="findface-onvif-discovery"
 NEW_SERVICE="oe-onvif-discovery"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
