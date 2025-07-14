@@ -90,7 +90,6 @@ main() {
         "$SCRIPT_DIR/renameTarantoolServer.sh"
         "$SCRIPT_DIR/renameUI.sh"
         "$SCRIPT_DIR/renameUploadServer.sh"
-        "$SCRIPT_DIR/../revertUI.sh"
     )
     
     # Count total scripts
