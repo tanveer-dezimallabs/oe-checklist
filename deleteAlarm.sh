@@ -111,12 +111,6 @@ else
     exit 1
 fi
 
-# 9. Restart services
-echo "🚀 Restarting Docker Compose services..."
-cd /opt/oe
-docker-compose down --remove-orphans
-docker-compose up -d
-
 # 10. Verify removal
 echo "🔍 Verifying alarm services removal..."
 ALARM_CONTAINERS=$(docker ps --filter "name=alarm" --format "table {{.Names}}" 2>/dev/null | grep -v NAMES || true)
