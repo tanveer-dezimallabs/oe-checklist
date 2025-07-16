@@ -100,6 +100,9 @@ rm -rf ./cache/findface-upload 2>/dev/null || true
 echo "Cleaning up backup files..."
 find . -name "*.bak" -o -name "*.backup" | grep -i upload | xargs rm -f 2>/dev/null || true
 
+# 7. Restart Docker Compose
+echo "Restarting Docker Compose services..."
+docker-compose down --remove-orphans
 
 # 8. Fix container-side permissions after startup
 echo "Waiting for oe-upload service to start..."
