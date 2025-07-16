@@ -50,8 +50,4 @@ for shard in {001..004}; do
     docker rm -f "oe-findface-tarantool-server-shard-$shard-1" 2>/dev/null || true
 done
 
-# 6. Restart Docker Compose
-docker-compose down
-docker-compose up -d
-
 echo "Renaming of findface-tarantool-server to oe-tarantool-server complete."
