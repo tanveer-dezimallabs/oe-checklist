@@ -20,9 +20,4 @@ fi
 sed -i 's/findface-sf-api/oe-api/g' /opt/oe/docker-compose.yaml
 sed -i 's/configs\/findface-sf-api/configs\/oe-api/g' /opt/oe/docker-compose.yaml
 
-# 3. Restart Docker Compose
-cd /opt/oe
-docker-compose down
-docker-compose up -d
-
 echo "Renaming of findface-sf-api to oe-api complete."
