@@ -72,10 +72,6 @@ else
     exit 1
 fi
 
-# 10. Start the services with new names
-echo "🚀 Starting services with new names..."
-cd /opt/oe && docker-compose up -d
-
 # 11. Verify the services are running
 echo "🔍 Checking service status..."
 sleep 10
