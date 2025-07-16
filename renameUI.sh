@@ -22,9 +22,4 @@ chmod 644 /opt/oe/configs/oe-web-ui/nginx-site.conf
 sed -i 's/findface-multi-ui/oe-web-ui/g' /opt/oe/docker-compose.yaml
 sed -i 's/configs\/findface-multi-ui/configs\/oe-web-ui/g' /opt/oe/docker-compose.yaml
 
-# 6. Restart Docker Compose
-cd /opt/oe
-docker-compose down
-docker-compose up -d
-
 echo "oe-web-ui changes applied and stack restarted."
