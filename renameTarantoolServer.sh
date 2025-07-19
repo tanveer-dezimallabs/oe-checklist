@@ -50,4 +50,4 @@ for shard in {001..004}; do
     docker rm -f "oe-findface-tarantool-server-shard-$shard-1" 2>/dev/null || true
 done
 
-echo "Renaming of findface-tarantool-server to oe-tarantool-server complete."
+echo "Configuration of oe-tarantool-server complete."
