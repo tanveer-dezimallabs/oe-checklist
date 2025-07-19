@@ -44,4 +44,4 @@ sed -i 's#cache/findface-video-worker#cache/oe-stream-worker#g' docker-compose.y
 # 4. Remove old container if exists
 docker rm -f oe-findface-video-worker-1 2>/dev/null || true
 
-echo "Renaming of findface-video-worker to oe-stream-worker complete."
+echo "Configuration of  oe-stream-worker complete."
