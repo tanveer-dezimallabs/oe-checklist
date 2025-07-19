@@ -11,18 +11,17 @@ OLD_SERVICE="findface-multi-audit"
 NEW_SERVICE="oe-audit"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting Audit Service renaming process..."
+echo "🔄 Starting Audit Service configuring process..."
 
 # 1. Rename directory and file
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
 else
     echo "⚠️  Directory $CONFIGS_DIR/$OLD_DIR does not exist!"
     # Check if already renamed
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
-        echo "✅ Directory already renamed to $CONFIGS_DIR/$NEW_DIR"
+        echo "✅ Directory already configured to $CONFIGS_DIR/$NEW_DIR"
     else
         echo "❌ Neither old nor new directory exists!"
         exit 1
@@ -73,10 +72,10 @@ sleep 10
 docker ps --filter "name=oe-audit" --format "table {{.Names}}\t{{.Status}}"
 
 echo ""
-echo "🎉 Audit Service renaming completed successfully!"
+echo "🎉 Audit Service configuration completed successfully!"
 echo "=============================================="
 
 echo ""
-echo "🚀 Audit service should now be running with the new oe-audit name!"
+echo "🚀 Audit service should now be running"
 
 echo "Updated $DOCKER_COMPOSE references."
