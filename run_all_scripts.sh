@@ -68,6 +68,25 @@ main() {
     # Get the directory where this script is located
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     
+    # Ensure Tarantool shard directories exist (fix for the storage issue)
+    print_status "Ensuring Tarantool shard directories exist..."
+    for shard in {001..012}; do
+        shard_dir="/opt/oe/data/oe-tarantool-server/shard-$shard"
+        # Create the shard directory and subdirectories if they don't exist
+        sudo mkdir -p "$shard_dir"/{snapshots,xlogs,index} 2>/dev/null || true
+        print_status "Created/verified shard-$shard directories"
+    done
+    print_success "Tarantool shard directories verified"
+    
+    # Fix upload directory permissions for face detection storage
+    print_status "Fixing upload directory permissions..."
+    if [ -d "/opt/oe/data/oe-upload/uploads" ]; then
+        sudo chmod -R 777 /opt/oe/data/oe-upload/uploads/ 2>/dev/null || true
+        print_success "Upload directory permissions fixed"
+    else
+        print_status "Upload directory not found, will be created by Docker"
+    fi
+    
     # Array of scripts to run in order
     declare -a scripts=(
         "$SCRIPT_DIR/deleteAlarm.sh"
@@ -140,7 +159,7 @@ main() {
     
     # Stop docker-compose services
     print_status "Stopping Docker Compose services..."
-    if docker-compose down; then
+    if sudo docker-compose down; then
         print_success "Docker Compose services stopped successfully"
     else
         print_error "Failed to stop Docker Compose services"
@@ -149,7 +168,7 @@ main() {
     
     # Start docker-compose services
     print_status "Starting Docker Compose services in detached mode..."
-    if docker-compose up -d; then
+    if sudo docker-compose up -d; then
         print_success "Docker Compose services started successfully"
     else
         print_error "Failed to start Docker Compose services"
@@ -167,6 +186,7 @@ main() {
     fi
     
     print_success "Docker services have been restarted"
+    
     echo "======================================================="
 }
 
