@@ -11,17 +11,15 @@ OLD_SERVICE="findface-counter"
 NEW_SERVICE="oe-counter"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting Counter service renaming process..."
-
 # 1. Rename directory and file
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
+    echo "✅ configured"
 else
     echo "⚠️  Directory $CONFIGS_DIR/$OLD_DIR does not exist!"
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
-        echo "✅ Directory already renamed to $CONFIGS_DIR/$NEW_DIR"
+        echo "✅ Directory already configured"
     else
         echo "❌ Neither old nor new directory exists!"
         exit 1
@@ -41,7 +39,6 @@ echo "📝 Updating data directory references..."
 sed -i "s|data/$OLD_DIR|data/$NEW_DIR|g" "$DOCKER_COMPOSE"
 
 # 5. Rename the service name in docker-compose.yaml
-echo "🔧 Renaming service name in docker-compose.yaml..."
 sed -i "s/^  $OLD_SERVICE:/  $NEW_SERVICE:/" "$DOCKER_COMPOSE"
 
 # 6. Update all references to this service in depends_on and other places
@@ -70,19 +67,5 @@ sleep 10
 docker ps --filter "name=oe-counter" --format "table {{.Names}}\t{{.Status}}"
 
 echo ""
-echo "🎉 Counter service renaming completed successfully!"
-echo "=============================================="
-echo "Summary of changes:"
-echo "- ✅ Renamed config directory: $OLD_DIR → $NEW_DIR"
-echo "- ✅ Renamed config file: $OLD_FILE → $NEW_FILE"
-echo "- ✅ Updated docker-compose.yaml config paths"
-echo "- ✅ Updated docker-compose.yaml data paths"
-echo "- ✅ Renamed service: $OLD_SERVICE → $NEW_SERVICE"
-echo "- ✅ Updated all service dependencies"
-echo "- ✅ Fixed YAML indentation issues"
-echo "- ✅ Validated docker-compose.yaml syntax"
-echo "- ✅ Restarted services"
-echo ""
-echo "🚀 Counter service should now be running with the new oe-counter name!"
 
 echo "Updated $DOCKER_COMPOSE references."
