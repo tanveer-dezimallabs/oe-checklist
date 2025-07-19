@@ -8,4 +8,4 @@ NEW_SERVICE="oe-cleaner"
 # Rename the service and all references to it
 sed -i "s/\b$OLD_SERVICE\b/$NEW_SERVICE/g" "$DOCKER_COMPOSE"
 
-echo "Renamed service $OLD_SERVICE to $NEW_SERVICE in $DOCKER_COMPOSE"
+echo "Configured successfully"
