@@ -19,10 +19,10 @@ if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
     echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
 else
-    echo "⚠️  Directory $CONFIGS_DIR/$OLD_DIR does not exist!"
+    echo "⚠️  Directory does not exist!"
     # Check if already renamed
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
-        echo "✅ Directory already renamed to $CONFIGS_DIR/$NEW_DIR"
+        echo "✅ Directory already configured"
     else
         echo "❌ Neither old nor new directory exists!"
         exit 1
@@ -78,20 +78,5 @@ sleep 10
 docker ps --filter "name=oe-legacy" --format "table {{.Names}}\t{{.Status}}"
 
 echo ""
-echo "🎉 Multi Legacy renaming completed successfully!"
-echo "=============================================="
-echo "Summary of changes:"
-echo "- ✅ Renamed config directory: $OLD_DIR → $NEW_DIR"
-echo "- ✅ Renamed config file: $OLD_FILE → $NEW_FILE"
-echo "- ✅ Updated docker-compose.yaml config paths"
-echo "- ✅ Updated docker-compose.yaml data paths"
-echo "- ✅ Renamed service: $OLD_SERVICE → $NEW_SERVICE"
-echo "- ✅ Updated all service dependencies"
-echo "- ✅ Removed liveness dependencies"
-echo "- ✅ Fixed YAML indentation issues"
-echo "- ✅ Validated docker-compose.yaml syntax"
-echo "- ✅ Restarted services"
-echo ""
-echo "🚀 Multi Legacy service should now be running with the new oe-legacy name!"
 
 echo "Updated $DOCKER_COMPOSE references."
