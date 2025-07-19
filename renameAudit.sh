@@ -11,17 +11,16 @@ OLD_SERVICE="findface-multi-audit"
 NEW_SERVICE="oe-audit"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting Audit Service configuring process..."
 
 # 1. Rename directory and file
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
 else
-    echo "⚠️  Directory $CONFIGS_DIR/$OLD_DIR does not exist!"
+    echo "⚠️  Directory does not exist!"
     # Check if already renamed
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
-        echo "✅ Directory already configured to $CONFIGS_DIR/$NEW_DIR"
+        echo "✅ Directory already configured "
     else
         echo "❌ Neither old nor new directory exists!"
         exit 1
@@ -41,7 +40,6 @@ echo "📝 Updating data directory references..."
 sed -i "s|data/$OLD_DIR|data/$NEW_DIR|g" "$DOCKER_COMPOSE"
 
 # 5. Rename the service name in docker-compose.yaml
-echo "🔧 Renaming service name in docker-compose.yaml..."
 sed -i "s/^  $OLD_SERVICE:/  $NEW_SERVICE:/" "$DOCKER_COMPOSE"
 
 # 6. Update all references to this service in depends_on and other places
