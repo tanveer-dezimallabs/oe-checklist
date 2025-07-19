@@ -24,5 +24,3 @@ fi
 sed -i 's#findface-extraction-api#oe-extraction-api#g' /opt/oe/docker-compose.yaml
 sed -i 's#configs/findface-extraction-api#configs/oe-extraction-api#g' /opt/oe/docker-compose.yaml
 sed -i 's#cache/findface-extraction-api#cache/oe-extraction-api#g' /opt/oe/docker-compose.yaml
-
-echo "Renaming of findface-extraction-api to oe-extraction-api complete."
