@@ -58,5 +58,3 @@ docker rm -f oe-findface-ntls-1 2>/dev/null || true
 # 6. Restart Docker Compose
 docker-compose down
 docker-compose up -d
-
-echo "Renaming of findface-ntls to oe-ls complete."
