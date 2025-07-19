@@ -43,4 +43,4 @@ sed -i 's#cache/findface-video-manager#cache/oe-stream-manager#g' docker-compose
 # 4. Remove old container if exists
 docker rm -f oe-findface-video-manager-1 2>/dev/null || true
 
-echo "Renaming of findface-video-manager to oe-stream-manager complete."
+echo "Configuration of oe-stream-manager complete."
