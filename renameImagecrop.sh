@@ -11,8 +11,6 @@ OLD_SERVICE="findface-image-crop"
 NEW_SERVICE="oe-image-crop"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting Image Crop service renaming process..."
-
 # 2. Stop Docker Compose services
 echo "🛑 Stopping Docker Compose services..."
 cd /opt/oe && docker-compose down
@@ -26,7 +24,6 @@ echo "📝 Updating data directory references..."
 sed -i "s|data/$OLD_DIR|data/$NEW_DIR|g" "$DOCKER_COMPOSE"
 
 # 5. Rename the service name in docker-compose.yaml
-echo "🔧 Renaming service name in docker-compose.yaml..."
 sed -i "s/^  $OLD_SERVICE:/  $NEW_SERVICE:/" "$DOCKER_COMPOSE"
 
 # 6. Update all references to this service in depends_on and other places
@@ -55,19 +52,5 @@ sleep 10
 docker ps --filter "name=oe-image-crop" --format "table {{.Names}}\t{{.Status}}"
 
 echo ""
-echo "🎉 Image Crop service renaming completed successfully!"
-echo "=============================================="
-echo "Summary of changes:"
-echo "- ✅ Renamed config directory: $OLD_DIR → $NEW_DIR"
-echo "- ✅ Renamed config file: $OLD_FILE → $NEW_FILE (if present)"
-echo "- ✅ Updated docker-compose.yaml config paths"
-echo "- ✅ Updated docker-compose.yaml data paths"
-echo "- ✅ Renamed service: $OLD_SERVICE → $NEW_SERVICE"
-echo "- ✅ Updated all service dependencies"
-echo "- ✅ Fixed YAML indentation issues"
-echo "- ✅ Validated docker-compose.yaml syntax"
-echo "- ✅ Restarted services"
-echo ""
-echo "🚀 Image Crop service should now be running with the new oe-image-crop name!"
 
 echo "Updated $DOCKER_COMPOSE references."
