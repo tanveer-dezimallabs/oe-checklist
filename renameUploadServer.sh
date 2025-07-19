@@ -4,10 +4,8 @@ set -e
 
 cd /opt/oe
 
-echo "Starting findface-upload to oe-upload migration..."
-
 # Pre-migration cleanup (optional - removes any existing findface-upload remnants)
-echo "Performing pre-migration cleanup of any existing findface-upload remnants..."
+echo "Performing pre-migration cleanup of any existing remnants..."
 docker stop $(docker ps -aq --filter "name=findface-upload") 2>/dev/null || true
 docker rm $(docker ps -aq --filter "name=findface-upload") 2>/dev/null || true
 docker volume rm $(docker volume ls -q --filter "name=findface-upload") 2>/dev/null || true
@@ -79,7 +77,6 @@ echo "Removing findface-upload volumes..."
 docker volume rm $(docker volume ls -q --filter "name=findface-upload") 2>/dev/null || true
 
 # Remove any findface-upload networks
-echo "Removing findface-upload networks..."
 docker network rm $(docker network ls -q --filter "name=findface-upload") 2>/dev/null || true
 
 # Remove any findface-upload images (optional - commented out to preserve images)
@@ -87,11 +84,9 @@ docker network rm $(docker network ls -q --filter "name=findface-upload") 2>/dev
 # docker rmi $(docker images -q --filter "reference=*findface-upload*") 2>/dev/null || true
 
 # Clean up any remaining findface-upload references in config files
-echo "Cleaning up findface-upload references in all config files..."
 find ./configs -name "*.yaml" -o -name "*.yml" -o -name "*.conf" -o -name "*.sh" | xargs sed -i 's#findface-upload#oe-upload#g' 2>/dev/null || true
 
 # Remove any leftover findface-upload directories
-echo "Removing any leftover findface-upload directories..."
 rm -rf ./configs/findface-upload 2>/dev/null || true
 rm -rf ./data/findface-upload 2>/dev/null || true
 rm -rf ./cache/findface-upload 2>/dev/null || true
@@ -126,15 +121,15 @@ echo "Performing final cleanup verification..."
 
 # Verify no findface-upload containers exist
 if docker ps -a --filter "name=findface-upload" --format "table {{.Names}}" | grep -q findface-upload; then
-    echo "⚠️  Warning: Some findface-upload containers still exist"
+    echo "⚠️  Warning: Some existing upload containers still exist"
     docker ps -a --filter "name=findface-upload"
 else
-    echo "✅ No findface-upload containers found"
+    echo "✅ No existing upload containers found"
 fi
 
 # Verify no findface-upload volumes exist
 if docker volume ls --filter "name=findface-upload" --format "table {{.Name}}" | grep -q findface-upload; then
-    echo "⚠️  Warning: Some findface-upload volumes still exist"
+    echo "⚠️  Warning: Some existing upload volumes still exist"
     docker volume ls --filter "name=findface-upload"
 else
     echo "✅ No findface-upload volumes found"
@@ -142,21 +137,20 @@ fi
 
 # Check for any remaining findface-upload references in docker-compose.yaml
 if grep -q "findface-upload" docker-compose.yaml; then
-    echo "⚠️  Warning: findface-upload references still found in docker-compose.yaml"
+    echo "⚠️  Warning: existing upload references still found in docker-compose.yaml"
     grep -n "findface-upload" docker-compose.yaml
 else
-    echo "✅ No findface-upload references found in docker-compose.yaml"
+    echo "✅ No existing-upload references found in docker-compose.yaml"
 fi
 
 # Check for any remaining findface-upload directories
 if find . -type d -name "*findface-upload*" 2>/dev/null | grep -q .; then
-    echo "⚠️  Warning: Some findface-upload directories still exist"
+    echo "⚠️  Warning: Some upload directories still exist"
     find . -type d -name "*findface-upload*"
 else
     echo "✅ No findface-upload directories found"
 fi
 
-echo "Renaming of findface-upload to oe-upload complete."
 echo "The upload service should now be working correctly with proper permissions."
 
 # 10. Verify the service is working
@@ -177,15 +171,10 @@ echo ""
 echo "Migration completed successfully!"
 echo "- Service renamed from 'findface-upload' to 'oe-upload'"
 echo "- Configuration and data directories updated"
-echo "- All findface-upload containers, volumes, and networks removed"
-echo "- All findface-upload references cleaned from config files"
 echo "- Permissions fixed for proper operation"
 echo "- Docker Compose services restarted"
 echo ""
 echo "Summary of cleanup actions performed:"
-echo "- ✅ Stopped and removed findface-upload containers"
-echo "- ✅ Removed findface-upload volumes"
-echo "- ✅ Removed findface-upload networks"
 echo "- ✅ Updated all config file references"
 echo "- ✅ Removed leftover directories"
 echo "- ✅ Cleaned up backup files"
