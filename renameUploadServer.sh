@@ -65,15 +65,15 @@ if [ -d "./data/oe-upload" ]; then
 fi
 
 # 6. Clean up old findface-upload remnants
-echo "Cleaning up old findface-upload remnants..."
+echo "Cleaning up old remnants..."
 
 # Stop and remove any existing containers
-echo "Stopping and removing any findface-upload containers..."
+echo "Stopping and removing any remnant containers..."
 docker stop $(docker ps -aq --filter "name=findface-upload") 2>/dev/null || true
 docker rm $(docker ps -aq --filter "name=findface-upload") 2>/dev/null || true
 
 # Remove any findface-upload volumes
-echo "Removing findface-upload volumes..."
+echo "Removing remnant volumes..."
 docker volume rm $(docker volume ls -q --filter "name=findface-upload") 2>/dev/null || true
 
 # Remove any findface-upload networks
@@ -132,7 +132,7 @@ if docker volume ls --filter "name=findface-upload" --format "table {{.Name}}" |
     echo "⚠️  Warning: Some existing upload volumes still exist"
     docker volume ls --filter "name=findface-upload"
 else
-    echo "✅ No findface-upload volumes found"
+    echo "✅ No remnant volumes found"
 fi
 
 # Check for any remaining findface-upload references in docker-compose.yaml
@@ -148,7 +148,7 @@ if find . -type d -name "*findface-upload*" 2>/dev/null | grep -q .; then
     echo "⚠️  Warning: Some upload directories still exist"
     find . -type d -name "*findface-upload*"
 else
-    echo "✅ No findface-upload directories found"
+    echo "✅ No remnant upload directories found"
 fi
 
 echo "The upload service should now be working correctly with proper permissions."
@@ -168,8 +168,6 @@ else
 fi
 
 echo ""
-echo "Migration completed successfully!"
-echo "- Service renamed from 'findface-upload' to 'oe-upload'"
 echo "- Configuration and data directories updated"
 echo "- Permissions fixed for proper operation"
 echo "- Docker Compose services restarted"
@@ -178,4 +176,4 @@ echo "Summary of cleanup actions performed:"
 echo "- ✅ Updated all config file references"
 echo "- ✅ Removed leftover directories"
 echo "- ✅ Cleaned up backup files"
-echo "- ✅ Verified no findface-upload remnants remain"
+echo "- ✅ Verified no remnants remain"
