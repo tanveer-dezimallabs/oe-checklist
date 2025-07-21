@@ -11,15 +11,15 @@ OLD_SERVICE="findface-multi-file-mover"
 NEW_SERVICE="oe-file-mover"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting File Mover Service renaming process..."
+echo "🔄 Starting File Mover configuration process..."
 
 # 1. Rename directory and file
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
+    echo "✅ Configured"
 else
-    echo "⚠️  Directory $CONFIGS_DIR/$OLD_DIR does not exist!"
+    echo "⚠️  Directory does not exist!"
     # Check if already renamed
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
         echo "✅ Directory already configured"
