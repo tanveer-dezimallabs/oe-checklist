@@ -203,7 +203,7 @@ EOF
 update_findface_config() {
     local config_path="$1"
     
-    print_status "Updating FindFace configuration..."
+    print_status "Updating configuration..."
     
     # Create temporary Python script for updating config
     local temp_script="/tmp/update_findface_config.py"
@@ -337,10 +337,10 @@ if __name__ == "__main__":
 EOF
 
     if python3 "$temp_script" "$config_path"; then
-        print_success "FindFace configuration updated"
+        print_success "configuration updated"
         rm -f "$temp_script"
     else
-        print_error "Failed to update FindFace configuration"
+        print_error "Failed to update configuration"
         rm -f "$temp_script"
         return 1
     fi
@@ -464,7 +464,7 @@ main() {
     fi
     
     if [ ! -f "$FINDFACE_CONFIG_PATH" ]; then
-        print_error "FindFace config file not found: $FINDFACE_CONFIG_PATH"
+        print_error "config file not found: $FINDFACE_CONFIG_PATH"
         exit 1
     fi
     
@@ -479,7 +479,7 @@ main() {
     
     # Change to /opt/oe directory
     cd /opt/oe || {
-        print_error "Failed to change to /opt/oe directory"
+        print_error "Failed to change to correct directory"
         exit 1
     }
     
