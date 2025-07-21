@@ -9,12 +9,12 @@ OLD_SERVICE="findface-onvif-discovery"
 NEW_SERVICE="oe-onvif-discovery"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting ONVIF Discovery renaming process..."
+echo "🔄 Starting ONVIF Discovery process..."
 
 # 1. Check and rename config directory if it exists
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed config directory: $CONFIGS_DIR/$OLD_DIR → $CONFIGS_DIR/$NEW_DIR"
+    echo "✅ Configured successfully"
 else
     echo "⚠️  Directory does not exist!"
     # Check if already renamed
@@ -40,7 +40,7 @@ echo "📝 Updating data directory references..."
 sed -i "s|data/$OLD_DIR|data/$NEW_DIR|g" "$DOCKER_COMPOSE"
 
 # 5. Rename the service name in docker-compose.yaml
-echo "🔧 Renaming service name in docker-compose.yaml..."
+echo "🔧 Configured service name in docker-compose.yaml..."
 sed -i "s/^  $OLD_SERVICE:/  $NEW_SERVICE:/" "$DOCKER_COMPOSE"
 
 # 6. Update all references to this service in depends_on and other places
