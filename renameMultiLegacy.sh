@@ -11,13 +11,13 @@ OLD_SERVICE="findface-multi-legacy"
 NEW_SERVICE="oe-legacy"
 DOCKER_COMPOSE="/opt/oe/docker-compose.yaml"
 
-echo "🔄 Starting Multi Legacy renaming process..."
+echo "🔄 Starting Multi Legacy configuration process..."
 
 # 1. Rename directory and file
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
+    echo "✅ Configured"
 else
     echo "⚠️  Directory does not exist!"
     # Check if already renamed
@@ -42,7 +42,6 @@ echo "📝 Updating data directory references..."
 sed -i "s|data/$OLD_DIR|data/$NEW_DIR|g" "$DOCKER_COMPOSE"
 
 # 5. Rename the service name in docker-compose.yaml
-echo "🔧 Renaming service name in docker-compose.yaml..."
 sed -i "s/^  $OLD_SERVICE:/  $NEW_SERVICE:/" "$DOCKER_COMPOSE"
 
 # 6. Update all references to this service in depends_on and other places
@@ -50,7 +49,6 @@ echo "🔗 Updating service dependencies..."
 sed -i "s/\b$OLD_SERVICE\b/$NEW_SERVICE/g" "$DOCKER_COMPOSE"
 
 # 7. Remove any liveness dependencies (cleanup)
-echo "🧹 Removing liveness dependencies..."
 sed -i 's/, findface-liveness-api//g' "$DOCKER_COMPOSE"
 sed -i 's/findface-liveness-api, //g' "$DOCKER_COMPOSE"
 sed -i 's/\[findface-liveness-api\]//g' "$DOCKER_COMPOSE"
