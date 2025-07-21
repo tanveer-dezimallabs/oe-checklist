@@ -17,7 +17,7 @@ echo "🔄 Starting process..."
 if [ -d "$CONFIGS_DIR/$OLD_DIR" ]; then
     mv "$CONFIGS_DIR/$OLD_DIR/$OLD_FILE" "$CONFIGS_DIR/$OLD_DIR/$NEW_FILE"
     mv "$CONFIGS_DIR/$OLD_DIR" "$CONFIGS_DIR/$NEW_DIR"
-    echo "✅ Renamed $CONFIGS_DIR/$OLD_DIR to $CONFIGS_DIR/$NEW_DIR and $OLD_FILE to $NEW_FILE"
+    echo "✅ Configured"
 else
     echo "⚠️  Directory does not exist!"
     if [ -d "$CONFIGS_DIR/$NEW_DIR" ]; then
