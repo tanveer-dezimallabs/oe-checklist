@@ -22,7 +22,7 @@ print_warning() {
     echo "[WARNING] $1"
 }
 
-print_status "Starting ntech to optiexacta rebranding process..."
+print_status "Starting process..."
 
 # Check if docker-compose.yaml exists
 if [ ! -f "/opt/oe/docker-compose.yaml" ]; then
@@ -37,7 +37,6 @@ cp /opt/oe/docker-compose.yaml "$backup_file"
 print_success "Backup created"
 
 # Replace ntech with optiexacta in docker-compose.yaml
-print_status "Replacing 'ntech' with 'optiexacta' in docker-compose.yaml..."
 
 # Replace in image names
 sed -i 's|docker\.int\.ntl/ntech/|docker.int.ntl/optiexacta/|g' /opt/oe/docker-compose.yaml
@@ -64,17 +63,16 @@ fi
 
 # Show what changed
 print_status "Changes made:"
-echo "✓ Replaced docker.int.ntl/ntech/ with docker.int.ntl/optiexacta/ in image references"
-echo "✓ Replaced RABBITMQ_DEFAULT_USER from ntech to optiexacta"
-echo "✓ Updated connection strings containing ntech"
+echo "✓ Replaced image references"
+echo "✓ Replaced RABBITMQ_DEFAULT_USER"
+echo "✓ Updated connection strings "
 
 print_warning "IMPORTANT NOTES:"
 echo "1. This change affects Docker image paths - make sure optiexacta images exist or are accessible"
-echo "2. RabbitMQ credentials have been updated - this will create new user 'optiexacta'"
 echo "3. Database connection strings have been updated"
 echo "4. You need to restart Docker services for changes to take effect"
 
-print_success "Rebranding completed successfully!"
+print_success " completed successfully!"
 echo ""
 echo "Next steps:"
 echo "1. Run: sudo docker-compose down"
