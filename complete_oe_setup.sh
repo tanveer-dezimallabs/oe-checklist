@@ -265,6 +265,7 @@ def update_findface_config(file_path):
                     "vars": {
                         "--image-large-logo": "url(/ui-static/custom_theme/oe-white-1080p.png)",
                         "--image-header-logo": "url(/ui-static/custom_theme/oe-white-header.svg)",
+                        # "--image-header-logo": "url(/ui-static/custom_theme/oe-white-header.svg)",
                         "--image-launcher-logo": "url(/ui-static/custom_theme/oe-white-1080p.png)"
                     }
                 }
